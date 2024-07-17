@@ -19,7 +19,7 @@
       crossorigin="anonymous"
     />
   </head>
-  <body>
+  <body onload="loadIntialData()">
     <!-- Btn for mobile size -->
     <div class="addNewItemBtnForMobile">
       <button
@@ -59,9 +59,9 @@
                   >Img Url</label
                 >
                 <input
-                  type="email"
+                  type="url"
                   class="form-control"
-                  id="exampleInputEmail1"
+                  id="imageUrl"
                   aria-describedby="emailHelp"
                   placeholder="https://krunal.com/img.png"
                 />
@@ -115,7 +115,7 @@
             >
               Close
             </button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-primary" onclick="handleSubmit()">Save changes</button>
           </div>
         </div>
       </div>
@@ -123,21 +123,21 @@
 
     <!-- Open Task Modal -->
     <!-- Temp btn Remove later. -->
-    <button
+    <!-- <button
       type="button"
       class="btn btn-primary"
       data-bs-toggle="modal"
       data-bs-target="#exampleModal"
     >
       Launch demo modal
-    </button>
+    </button> -->
 
-    
+
     <div
       class="modal fade"
-      id="exampleModal"
+      id="OpenTaskModal"
       tabindex="-1"
-      aria-labelledby="exampleModalLabel"
+      aria-labelledby="OPenModal"
       aria-hidden="true"
     >
       <div class="modal-dialog modal-lg">
