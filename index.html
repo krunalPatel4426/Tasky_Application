@@ -19,9 +19,9 @@
       crossorigin="anonymous"
     />
   </head>
-  <body>
+  <body onload="loadIntialData()">
     <!-- Btn for mobile size -->
-    <div class="addNewItemBtnForMobile">
+    <div class="addNewItemBtnForMobile z-3">
       <button
         class="btn btn-outline-primary d-flex align-items-center gap-3"
         type="submit"
@@ -53,15 +53,15 @@
             ></button>
           </div>
           <div class="modal-body">
-            <form>
+            <form onsubmit="return false">
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label"
                   >Img Url</label
                 >
                 <input
-                  type="email"
+                  type="url"
                   class="form-control"
-                  id="exampleInputEmail1"
+                  id="imageUrl"
                   aria-describedby="emailHelp"
                   placeholder="https://krunal.com/img.png"
                 />
@@ -115,7 +115,7 @@
             >
               Close
             </button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <button id="submitButton"type="button" class="btn btn-primary" onclick="handleSubmit()">Add Task</button>
           </div>
         </div>
       </div>
@@ -123,19 +123,21 @@
 
     <!-- Open Task Modal -->
     <!-- Temp btn Remove later. -->
-    <button
+    <!-- <button
       type="button"
       class="btn btn-primary"
       data-bs-toggle="modal"
       data-bs-target="#exampleModal"
     >
       Launch demo modal
-    </button>
+    </button> -->
+
+
     <div
       class="modal fade"
-      id="exampleModal"
+      id="OpenTaskModal"
       tabindex="-1"
-      aria-labelledby="exampleModalLabel"
+      aria-labelledby="OPenModal"
       aria-hidden="true"
     >
       <div class="modal-dialog modal-lg">
@@ -164,10 +166,10 @@
     </div>
 
     <!-- NavBar -->
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <nav class="navbar navbar-expand-lg navbar-custom">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">Tasky Application</a>
-        <button
+        <!-- <button
           class="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
@@ -177,11 +179,11 @@
           aria-label="Toggle navigation"
         >
           <span class="navbar-toggler-icon"></span>
-        </button>
+        </button> -->
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Home</a>
+              <a class="nav-link active" aria-current="page" href="#"></a>
             </li>
           </ul>
           <button
@@ -207,6 +209,7 @@
                 placeholder="search your task here.."
                 aria-label="Search Task"
                 aria-describedby="addon-wrapping"
+                oninput="searchTask.apply(this, arguments)"
               />
               <span class="input-group-text" id="addon-wrapping "
                 ><i class="fa-sharp fa-solid fa-magnifying-glass"></i
