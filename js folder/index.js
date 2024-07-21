@@ -6,7 +6,7 @@ const taskContent = document.querySelector(".taskContent");
 const taskModalBody = document.querySelector(".taskModalBody");
 
 const htmlTaskContent = ({ id, title, description, type, url }) => `
-    <div class="col-md-6 col-lg-4 mt-3" id="${id}" key="${id}">
+    <div class="col-md-6 col-lg-4 mt-3 z-1" id="${id}" key="${id}">
       <div class="card shadow-sm taskCard">
         <div class="card-header d-flex justify-content-end gap-2" taskCardHeader>
           <button type="button" class="btn btn-outline-primary mr-1.5" data-bs-toggle="modal" data-bs-target="#addTaskModal" onClick="editTask.apply(this, arguments)" name="${id}">
@@ -55,6 +55,7 @@ const htmlModalContent = ({ id, title, description, url }) => {
 };
 
 const updateLocalStorage = () => {
+  console.log("localStorage");
   localStorage.setItem(
     "task",
     JSON.stringify({
@@ -66,8 +67,8 @@ const updateLocalStorage = () => {
 const loadIntialData = () => {
   const localStorageCopy = JSON.parse(localStorage.task);
   if (localStorageCopy) state.taskList = localStorageCopy.tasks;
-
   state.taskList.map((cardData) => {
+    console.log(cardData)
     taskContent.insertAdjacentHTML("beforeend", htmlTaskContent(cardData));
   });
 };
@@ -100,8 +101,9 @@ const deleteTask = (e) => {
 
   const targetId = e.target.getAttribute("name");
   const type = e.target.tagName;
+  // console.log(targetId)
   const removeTask = state.taskList.filter(({ id }) => id !== targetId);
-
+  state.taskList = removeTask;
   updateLocalStorage();
   if (type === "BUTTON") {
     return e.target.parentNode.parentNode.parentNode.parentNode.removeChild(
@@ -112,7 +114,7 @@ const deleteTask = (e) => {
       e.target.parentNode.parentNode.parentNode.parentNode
     );
   }
-  state.taskList = removeTask;
+  
 };
 
 const editTask = (e) => {
@@ -186,6 +188,7 @@ const searchTask = (e) => {
   while(taskContent.firstChild){
     taskContent.removeChild(taskContent.firstChild);
   }
-  const resultData = state.taskList.filter(({title}) => title.include(e.target.value));
-  console.log(resultData);
+  const resultData = state.taskList.filter(({title}) => title.toLowerCase().includes(e.target.value.toLowerCase()));
+  // console.log(resultData);
+  resultData.map((cardData) => taskContent.insertAdjacentHTML("beforeend", htmlTaskContent(cardData)));
 };
