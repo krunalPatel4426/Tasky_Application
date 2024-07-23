@@ -1,61 +1,29 @@
-const http = require("http");
-const { writeHeapSnapshot } = require("v8");
+const express = require("express");
+const app = express();
+app.use(express.json());
+
 const port = 8081;
 
-/*
->> GET: Inorder to get data from server
->> POST: Sending data to server
->> DELETE: Deleting the data from database
->> PATCH: Updating certain fields
->> PUT: Full Update
-*/
+const todoList = ["learn", "practice", "apply", "succed"];
 
-const todoList = ["learn", "practice", "apply", "suceed"];
-http.createServer((req, res) =>{
-    const {method, url} = req;
-    console.log({method, url});
-
-    if(url === "/todos"){
-        if(method === "GET"){
-            res.writeHead(200, {"content-type": "text'html"});
-            res.write(todoList.toString());
-        }else if(method === "POST"){
-            let body = "";
-            req.on("error", (err) => {
-                console.err(err);
-            }).on("data", (chunk) => {
-                body += chunk;
-                console.log(chunk);
-            }).on("end", () => {
-                body = JSON.parse(body);
-                console.log(body);
-
-                let newtoDO = todoList;
-                newtoDO.push(body.body);
-            });
-        }else if(method === "DELETE"){
-            let body = "";
-            req.on("error", (err) => {
-                console.error(err);
-            }).on("data", (chunk)=> {
-                body += chunk;
-            }).on("end", ()=>{
-                body = JSON.parse(body);
-                let deleteItem = body.item;
-                console.log(deleteItem);
-                todoList.find((elem, index)=>{
-                    if(elem === deleteItem){
-                        todoList.splice(index, 1);
-                    }
-                });
-            });
-        }else{
-            res.writeHead(501);
+app.get("/todos", (req, res)=>{
+    res.status(200).send(todoList);
+});
+app.post("/todos", (req, res)=>{
+    let newtodo = req.body.name;
+    todoList.push(newtodo);
+    res.status(200).send("task added successfully");
+});
+app.delete("/todos", (req, res) => {
+    let deleteItem = req.body.item;
+    console.log(deleteItem);
+    todoList.find((e, index) => {
+        if(e === deleteItem){
+            todoList.splice(index, 1);
+            res.status(201).send("task deleted successfully");
         }
-    }else{
-        writeHead(404);
-    }
-    res.end();
-}).listen(port, () => {
-    console.log(`Node js server started on port ${port}`);
+    })
+})
+app.listen(port, ()=>{
+    console.log(`express serever is on on port ${port}`);
 });
