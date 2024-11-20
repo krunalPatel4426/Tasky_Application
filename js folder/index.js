@@ -68,13 +68,13 @@ const loadIntialData = () => {
   const localStorageCopy = JSON.parse(localStorage.task);
   if (localStorageCopy) state.taskList = localStorageCopy.tasks;
   state.taskList.map((cardData) => {
-    console.log(cardData)
+    console.log(cardData);
     taskContent.insertAdjacentHTML("beforeend", htmlTaskContent(cardData));
   });
 };
 
 const handleSubmit = (event) => {
-  console.log("submit")
+  console.log("submit");
   const id = `${Date.now()}`;
   const input = {
     url: document.getElementById("imageUrl").value,
@@ -88,6 +88,10 @@ const handleSubmit = (event) => {
   );
   state.taskList.push({ ...input, id });
   updateLocalStorage();
+
+  const modelElemnt = document.getElementById("addTaskModal");
+  const modelInstance = bootstrap.Modal.getInstance(modelElemnt);
+  modelInstance.hide();
 };
 
 const openTask = (e) => {
@@ -114,14 +118,13 @@ const deleteTask = (e) => {
       e.target.parentNode.parentNode.parentNode.parentNode
     );
   }
-  
 };
 
 const editTask = (e) => {
   if (!e) e = window.event;
   const targetId = e.target.getAttribute("name");
   const type = e.target.tagName;
-  console.log(targetId)
+  console.log(targetId);
   let idx = state.taskList.findIndex(({ id }) => id === targetId);
   const task = state.taskList[idx];
   // const t = document.getElementById("addTaskModal"); this is code for getting html content in js file
@@ -138,15 +141,14 @@ const editTask = (e) => {
   taskType.value = task.type;
 
   submitButton.setAttribute("onClick", `saveEdit('${targetId}')`);
-  
+
   submitButton.innerHTML = "SAVE CHANGES";
 };
 
 const saveEdit = (targetId) => {
-
   console.log("Hello");
 
-  console.log(targetId)
+  console.log(targetId);
 
   const idx = state.taskList.findIndex(({ id }) => id === targetId);
 
@@ -161,7 +163,7 @@ const saveEdit = (targetId) => {
   state.taskList[idx] = updateTask;
   updateLocalStorage();
   const taskCard = document.getElementById(targetId);
-  console.log(taskCard)
+  console.log(taskCard);
 
   taskCard.parentNode.removeChild(taskCard);
 
@@ -179,16 +181,19 @@ const saveEdit = (targetId) => {
   taskTitle.value = "";
   taskDescription.value = "";
   taskType.value = "";
-
 };
 
 const searchTask = (e) => {
-  if(!e) e = window.event;
+  if (!e) e = window.event;
 
-  while(taskContent.firstChild){
+  while (taskContent.firstChild) {
     taskContent.removeChild(taskContent.firstChild);
   }
-  const resultData = state.taskList.filter(({title}) => title.toLowerCase().includes(e.target.value.toLowerCase()));
+  const resultData = state.taskList.filter(({ title }) =>
+    title.toLowerCase().includes(e.target.value.toLowerCase())
+  );
   // console.log(resultData);
-  resultData.map((cardData) => taskContent.insertAdjacentHTML("beforeend", htmlTaskContent(cardData)));
+  resultData.map((cardData) =>
+    taskContent.insertAdjacentHTML("beforeend", htmlTaskContent(cardData))
+  );
 };
