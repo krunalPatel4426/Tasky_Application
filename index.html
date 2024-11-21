@@ -91,6 +91,21 @@
         transform: scale(1.05); /* Slight enlargement on hover */
         background-color: #d68a0a; /* Darker Orange */
       }
+      /* Scroll Animation */
+      .scroll-animation {
+        animation: bounce 0.5s ease forwards;
+      }
+      @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% {
+          transform: translateY(0);
+        }
+        40% {
+          transform: translateY(-10px);
+        }
+        60% {
+          transform: translateY(-5px);
+        }
+      }
       @media (max-width: 992px) {
         .addNewItemBtnForMobile {
           display: flex;
@@ -107,6 +122,7 @@
         type="submit"
         data-bs-toggle="modal"
         data-bs-target="#addTaskModal"
+        id="addItemButton"
       >
         <i class="fa-solid fa-plus mr-5"></i> Add Item
       </button>
@@ -234,7 +250,7 @@
             </button>
           </div>
         </div>
-      </div>
+     </div>
     </div>
 
     <!-- NavBar -->
@@ -251,7 +267,8 @@
             class="btn d-flex align-items-center gap-3 btn-add-item"
             type="submit"
             data-bs-toggle="modal"
-            data-bs-target="#addTask Modal"
+            data-bs-target="#addTaskModal"
+            id="addItemButtonNav"
           >
             <i class="fa-solid fa-plus mr-5"></i> Add Item
           </button>
@@ -303,5 +320,18 @@
       integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
       crossorigin="anonymous"
     ></script>
+    <script>
+      window.addEventListener('scroll', function() {
+        const addItemButton = document.getElementById('addItemButton');
+        const addItemButtonNav = document.getElementById('addItemButtonNav');
+        if (window.scrollY > 50) {
+          addItemButton.classList.add('scroll-animation');
+          addItemButtonNav.classList.add('scroll-animation');
+        } else {
+          addItemButton.classList.remove('scroll-animation');
+          addItemButtonNav.classList.remove('scroll-animation');
+        }
+      });
+    </script>
   </body>
 </html>
