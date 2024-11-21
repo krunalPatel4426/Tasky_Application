@@ -89,11 +89,12 @@ const handleSubmit = (event) => {
   state.taskList.push({ ...input, id });
   updateLocalStorage();
 
-  const modelElemnt = document.getElementById("addTaskModal");
-  const modelInstance = bootstrap.Modal.getInstance(modelElemnt);
-  modelInstance.hide();
-  document.body.classList.remove("modal-open"); // Add this line
-  document.body.removeChild(document.body.querySelector(".modal-backdrop")); // Add this lineF
+  // Close modal using Bootstrap's method
+  const modalElement = document.getElementById("addTaskModal");
+  const modalInstance = bootstrap.Modal.getInstance(modalElement);
+  modalInstance.hide();
+
+  // Reset form
   document.getElementById("form").reset();
 };
 
@@ -207,3 +208,16 @@ const searchTask = (e) => {
     taskContent.insertAdjacentHTML("beforeend", htmlTaskContent(cardData))
   );
 };
+
+document.addEventListener("scroll", () => {
+  const navbar = document.querySelector(".navbar");
+  const searchbar = document.querySelector(".animate-searchbar");
+
+  if (window.scrollY > 50) {
+    navbar.classList.add("sticky");
+    searchbar.classList.add("sticky");
+  } else {
+    navbar.classList.remove("sticky");
+    searchbar.classList.remove("sticky");
+  }
+});
