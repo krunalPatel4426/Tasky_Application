@@ -92,6 +92,9 @@ const handleSubmit = (event) => {
   const modelElemnt = document.getElementById("addTaskModal");
   const modelInstance = bootstrap.Modal.getInstance(modelElemnt);
   modelInstance.hide();
+  document.body.classList.remove("modal-open"); // Add this line
+  document.body.removeChild(document.body.querySelector(".modal-backdrop")); // Add this lineF
+  document.getElementById("form").reset();
 };
 
 const openTask = (e) => {
@@ -141,7 +144,8 @@ const editTask = (e) => {
   taskType.value = task.type;
 
   submitButton.setAttribute("onClick", `saveEdit('${targetId}')`);
-
+  let lable = document.getElementById("exampleModalLabel");
+  lable.innerHTML = "Update task";
   submitButton.innerHTML = "SAVE CHANGES";
 };
 
@@ -181,6 +185,12 @@ const saveEdit = (targetId) => {
   taskTitle.value = "";
   taskDescription.value = "";
   taskType.value = "";
+
+  const modelElemnt = document.getElementById("addTaskModal");
+  const modelInstance = bootstrap.Modal.getInstance(modelElemnt);
+  modelInstance.hide();
+  document.body.classList.remove("modal-open"); // Add this line
+  document.body.removeChild(document.body.querySelector(".modal-backdrop")); // Add this lineF
 };
 
 const searchTask = (e) => {
